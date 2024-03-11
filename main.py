@@ -17,28 +17,47 @@ def count_words(text_content: str) -> int:
     return len(words)
 
 
-def count_letters(text_content: str) -> dict[str, int]:
+def count_chars(text_content: str) -> list[str]:
     """
-    Take text content and return count of unique chars
+    Take text content and return count of alpha numeric chars in
+    reverse sorted list
 
     Parameters:
     arg1 (str): Text Content as string
 
     Retruns:
-    dict[str, int]: {"a": 1, "b": 2, "c": 3}
+    list[dict[str, int]: {"character: 'a', 'occurences': 3"},
+    {"character: 'b', 'occurences': 2"}]]
     """
     chars = {}
-    # loop through text for each char
-    for c in text_content:
-        # set to lower
-        lc = c.lower()
-        # check if char is already in dict and if so append 1
-        # if not just set as 1
-        if lc in chars:
-            chars[lc] += 1
+    char_list = []
+    for char in text_content:
+        lower_char = char.lower()
+        if lower_char in chars:
+            chars[lower_char] += 1
         else:
-            chars[lc] = 1
-    return chars
+            chars[lower_char] = 1
+
+    for k, v in chars.items():
+        if k.isalpha():
+            char_list.append({"character": k, "occurences": v})
+    char_list.sort(reverse=True, key=lambda d: d["occurences"])
+    return char_list
+
+
+def display_char_counts(total_words, char_list):
+    """
+    Takes the total words, and list character counts then
+    displays appropriatel
+    """
+    print("--- Begin report of books/frankenstein.txt ---")
+    print(f"{total_words} found in the document")
+
+    for item in char_list:
+        print(f"The '{item["character"]}' character was found {
+              item["occurences"]} times")
+
+    print("--- End report ---")
 
 
 def main():
@@ -46,9 +65,9 @@ def main():
     with open("./books/frankenstein.txt") as f:
         book_content = f.read()
         words = count_words(book_content)
-
-        print(f"Ther are {words} in the document")
-        letters = count_letters(book_content)
+        chars = count_chars(book_content)
+        display_char_counts(words, chars)
+        f.read()
 
 
 if __name__ == "__main__":
