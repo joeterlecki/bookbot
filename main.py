@@ -38,6 +38,9 @@ def count_chars(text_content: str) -> list[str]:
         else:
             chars[lower_char] = 1
 
+    # convert dict to list of dict of alpha characters
+    # this probly can be optimized by combining with first loop
+    # but this is good enough for now
     for k, v in chars.items():
         if k.isalpha():
             char_list.append({"character": k, "occurences": v})
@@ -54,8 +57,7 @@ def display_char_counts(total_words, char_list):
     print(f"{total_words} found in the document")
 
     for item in char_list:
-        print(f"The '{item["character"]}' character was found {
-              item["occurences"]} times")
+        print(f"The '{item['character']}' character was found {item['occurences']} times")
 
     print("--- End report ---")
 
